@@ -1,0 +1,56 @@
+- name: My first play
+  hosts: myhosts
+
+  tasks:
+    - name: Ping
+      ansible.builtin.ping:
+
+    - name: Install required packages
+      become: true
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+        update_cache: true
+
+    - name: Add Docker’s official GPG key
+      become: true
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository
+      become: true
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install Docker
+      become: true
+      apt:
+        name: docker-ce
+        state: latest
+        update_cache: true
+
+    - name: Cloning
+      ansible.builtin.git:
+        repo: https://github.com/Axiaaa/InceptionV2
+        dest: ./pouet
+        update: yes
+
+    - name: Copy of env file
+      copy:
+        src: ../.env
+        dest: ./pouet/.env
+        mode: 0644
+        remote_src: false
+
+    - name: Starting
+      become: true
+      community.docker.docker_compose_v2: 
+        project_src: ./pouet/
+        files:
+          - docker-compose.yml

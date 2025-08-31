@@ -1,56 +1,75 @@
-- name: My first play
+#playbook.yaml
+#ansible-playbook -i inventory.yaml playbook.yaml
+- name: cloud1
   hosts: myhosts
-
   tasks:
-    - name: Ping
+    - name: Ping ping ping ping
       ansible.builtin.ping:
 
-    - name: Install required packages
-      become: true
+    - name: Install requirements
       apt:
-        name:
-          - apt-transport-https
-          - ca-certificates
-          - curl
-          - software-properties-common
+        name: "{{ item }}"
         state: present
-        update_cache: true
-
-    - name: Add Docker’s official GPG key
+        update_cache: yes
+      with_items:
+        - git
+        - curl
+        - apt-transport-https
+        - ca-certificates
+        - software-properties-common
       become: true
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
 
-    - name: Add Docker repository
+    - name: GPG key
+      remote_user: debian
+      get_url:
+        url: https://download.docker.com/linux/debian/gpg
+        dest: /etc/apt/trusted.gpg.d/docker.asc
+        mode: '0644'
+        force: true
       become: true
+
+    - name: Set up the stable repository
+      remote_user: debian
       apt_repository:
-        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        repo: deb [arch=amd64] https://download.docker.com/linux/debian bookworm stable
         state: present
-
-    - name: Install Docker
       become: true
+
+    - name: Update apt packages and grab docker
+      remote_user: debian
       apt:
         name: docker-ce
         state: latest
-        update_cache: true
+        update_cache: yes
+      become: true
 
-    - name: Cloning
-      ansible.builtin.git:
-        repo: https://github.com/Axiaaa/InceptionV2
-        dest: ./pouet
-        update: yes
+    - name: Make user debian part of the docker group
+      user:
+        name: debian
+        groups: docker
+        append: yes
+      become: true
 
-    - name: Copy of env file
+    - name: Pull InceptionV2 from Lulu
+      remote_user: debian
+      git:
+        repo: https://github.com/Axiaaa/InceptionV2.git
+        dest: ./InceptionV2
+        version: main
+
+    - name: Upload our env file
+      remote_user: debian
       copy:
         src: ./.env
-        dest: ./pouet/.env
+        dest: ./InceptionV2/.env
         mode: 0644
         remote_src: false
 
-    - name: Starting
+    - name: Run docker compose
+      remote_user: debian
       become: true
-      community.docker.docker_compose_v2: 
-        project_src: ./pouet/
+      community.docker.docker_compose_v2:
+        state: present
+        project_src: ./InceptionV2/
         files:
           - docker-compose.yml

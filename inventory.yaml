@@ -1,19 +1,6 @@
-myhosts: 
-  hosts : 
-    my_host_01 : 
-      ansible_host: 127.0.0.1
-      ansible_port: 2222
-      ansible_ssh_user: vagrant
-      ansible_ssh_private_key_file: .vagrant/machines/lcamerlyS/virtualbox/private_key
-    
-    # my_host_02 : 
-    #   ansible_host: 127.0.0.1
-    #   ansible_port: 2200
-    #   ansible_ssh_user: vagrant
-    #   ansible_ssh_private_key_file: .vagrant/machines/lcamerlyS2/virtualbox/private_key
-
-    # my_host_03 : 
-    #   ansible_host: 127.0.0.1
-    #   ansible_port: 2201
-    #   ansible_ssh_user: vagrant
-    #   ansible_ssh_private_key_file: .vagrant/machines/lcamerlyS3/virtualbox/private_key
+#inventory.yaml
+myhosts:
+  hosts:
+    vps:
+      ansible_host: 51.77.140.99
+      ansible_user: debian
