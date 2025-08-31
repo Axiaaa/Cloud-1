@@ -14,7 +14,7 @@ re : clean all
 rre : fclean all
 
 vagrantssh : 
-	vagrant ssh -- -L 8080:localhost:8080 
+	vagrant ssh lcamerlyS2 -- -L 8080:localhost:8080
 
 serverssh :
 	ssh -L 8080:51.77.140.99:8080 -i ~/.ssh/ovh_key debian@51.77.140.99
