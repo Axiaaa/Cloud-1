@@ -1,5 +1,5 @@
 #playbook.yaml
-#ansible-playbook -i inventory.yaml playbook.yaml
+#ansible-playbook -i inventory.yaml playbook.yaml --key-file "~/.ssh/ovh_key.pub"
 - name: cloud1
   hosts: myhosts
   tasks:

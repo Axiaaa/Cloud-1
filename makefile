@@ -1,6 +1,6 @@
 all :
 	ansible-inventory -i inventory.yaml --list
-	ansible-playbook -i inventory.yaml playbook.yaml
+	ansible-playbook -i inventory.yaml playbook.yaml --key-file "~/.ssh/ovh_key.pub"
 
 multihost : up
 	ansible-inventory -i ./multihost/inventory.yaml --list
