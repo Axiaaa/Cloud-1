@@ -19,7 +19,7 @@ vagrantssh :
 	vagrant ssh lcamerlyS2 -- -L 8080:localhost:8080
 
 serverssh :
-	ssh -L 8080:51.77.140.99:8080 -i ~/.ssh/ovh_key debian@51.77.140.99
+	ssh -L 8080:127.0.0.1:8080 -i ~/.ssh/ovh_key debian@51.77.140.99
 
 vagrant_clean : 
 	vagrant destroy -f
