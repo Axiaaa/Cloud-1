@@ -1,0 +1,30 @@
+#playbook.yaml
+#ansible-playbook -i inventory.yaml delete_playbook.yaml --key-file "~/.ssh/ovh_key.pub"
+- name: cloud1
+  hosts: myhosts
+  tasks:
+    - name: Ping ping ping ping
+      ansible.builtin.ping:
+
+    - name: Clean project
+      community.general.make:
+        chdir: ./InceptionV2/
+        target: clean
+    
+    - name: Delete folder
+      ansible.builtin.file:
+        path: ./InceptionV2/
+        state: absent
+
+    - name: Remove requirements
+      apt:
+        name: "{{ item }}"
+        state: absent
+        update_cache: yes
+      with_items:
+        - git
+        - curl
+        - apt-transport-https
+        - ca-certificates
+        - software-properties-common
+      become: true
