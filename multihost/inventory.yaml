@@ -5,15 +5,11 @@ myhosts:
       ansible_port: 2222
       ansible_ssh_user: vagrant
       ansible_ssh_private_key_file: .vagrant/machines/lcamerlyS/virtualbox/private_key
+      git_branch: lcamerly1
     
     my_host_02 : 
       ansible_host: 127.0.0.1
       ansible_port: 2200
       ansible_ssh_user: vagrant
       ansible_ssh_private_key_file: .vagrant/machines/lcamerlyS2/virtualbox/private_key
-
-    my_host_03 : 
-      ansible_host: 127.0.0.1
-      ansible_port: 2201
-      ansible_ssh_user: vagrant
-      ansible_ssh_private_key_file: .vagrant/machines/lcamerlyS3/virtualbox/private_key
+      git_branch: lcamerly2
